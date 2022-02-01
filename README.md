@@ -70,8 +70,7 @@ Login data to test
 Username	Password
 swapnil	test@123
 chetan	test@123
-rehan	test@123
-parul	test@123
+
 
 Policy Details
 
