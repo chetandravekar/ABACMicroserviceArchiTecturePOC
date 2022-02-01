@@ -1,0 +1,53 @@
+﻿@model AuthPolicyService.Models.Root
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 style="padding-top:5%">Edit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit"  method="post" action="@Url.Action("Edit", "Home")">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SrNo" class="control-label">@Html.DisplayNameFor(model => model.SrNo)</label>
+                <input asp-for="SrNo" class="form-control" />
+                <input asp-for="SrNo" class="form-control" value="model.SrNo" />
+                <span asp-validation-for="SrNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Url" class="control-label">@Html.DisplayNameFor(model => model.Url)</label>
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Method" class="control-label">@Html.DisplayNameFor(model => model.Method)</label>
+                <input asp-for="Method" class="form-control" />
+                <span asp-validation-for="Method" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PolicyInfo" class="control-label">@Html.DisplayName("Policy Information")</label>
+                <input asp-for="PolicyInfo" class="form-control" />
+                <span asp-validation-for="PolicyInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PolicyOperator" class="control-label">@Html.DisplayName("Policy Operator")</label>
+                <input asp-for="PolicyOperator" class="form-control" />
+                <span asp-validation-for="PolicyOperator" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

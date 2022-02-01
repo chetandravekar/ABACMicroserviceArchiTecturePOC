@@ -1,0 +1,53 @@
+{
+  "ConfigPolicies": [
+    {
+      "Url": "/api/Product",
+      "Method": "GET",
+      "PolicyOperator": "OR",
+      "Policies": [
+        //{
+        //  "Name": "CityJobTitlePolicy",
+        //  "Parameters": [
+        //    "Nagpur",
+        //    "Sr. Lead"
+        //  ]
+        //},
+        //{
+        //  "Name": "CountryCityPolicy",
+        //  "Parameters": [
+        //    "India",
+        //    "Nagpur"
+        //  ]
+        //}
+      ]
+    },
+    {
+      "Url": "/api/Product/{id}",
+      "Method": "POST",
+      "PolicyOperator": "AND",
+      "Policies": [
+        {
+          "Name": "DesignationAgePolicy1",
+          "Parameters": [
+            "Sr. Lead",
+            "27"
+          ]
+        },
+        {
+          "Name": "CityJobTitlePolicy",
+          "Parameters": [
+            "Nagpur",
+            "Sr Lead"
+          ]
+        },
+        {
+          "Name": "CountryCityPolicy",
+          "Parameters": [
+            "India",
+            "Nagpur"
+          ]
+        }
+      ]
+    }
+  ]
+}

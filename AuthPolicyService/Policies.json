@@ -1,0 +1,41 @@
+[
+  {
+    "SrNo": null,
+    "Url": "/api/Product",
+    "Method": "GET",
+    "PolicyInfo": "Policy validate user data for City & Title or country & city",
+    "PolicyOperator": "AND",
+    "Policies": [
+      {
+        "Name": "CityJobTitlePolicy",
+        "Parameters": [
+          {
+            "ParameterName": "City",
+            "ParameterValue": "Nagpur",
+            "Operator": "="
+          },
+          {
+            "ParameterName": "JobTitle",
+            "ParameterValue": "Sr Lead",
+            "Operator": "="
+          }
+        ]
+      },
+      {
+        "Name": "CountryCityPolicy",
+        "Parameters": [
+          {
+            "ParameterName": "Country",
+            "ParameterValue": "India",
+            "Operator": "="
+          },
+          {
+            "ParameterName": "City",
+            "ParameterValue": "Nagpur",
+            "Operator": "="
+          }
+        ]
+      }
+    ]
+  }
+]

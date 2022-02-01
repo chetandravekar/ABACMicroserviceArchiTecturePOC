@@ -1,0 +1,167 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using AuthPolicyService.Models;
+@model RootCreate
+
+@{
+    Layout = null;
+}
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    var claimsJsonArray = [];
+
+
+    function AddPolicy() {
+        var txtPolicyName = $("#txtPolicyName").val();
+        var item = {
+            "Url": $("#txtUrl").val(),
+            "PolicyOperator": $("#txtPolicyOp").val(),
+            "PolicyInfo": $("#txtPolicyInfo").val(),
+            "Method": $("#txtMethod").val(),
+            "Policies": [
+                {
+                    "Name": txtPolicyName,
+                    "Parameters": claimsJsonArray
+                }
+            ]
+        };
+
+        $.ajax({
+            url: 'InsertPolicyInJson',
+            data: JSON.stringify(item),
+            type: 'POST',
+            traditional: true,
+            contentType: 'application/json',
+            success: function (data) {
+                claimsJsonArray = [];
+                if (data == true) {
+                    alert("Policy added successfully");
+                }
+                else {
+                    alert("Policy add failed");
+                }
+                window.location.replace("index"); 
+            }
+        });
+    }
+
+
+    function AddClaims() {
+        var txtName = $("#txtName");
+        var txtValue = $("#txtValue");
+        var txtCountry = $("#ddlCountries");
+
+        var item = {
+            "ParameterName": txtName.val(),
+            "ParameterValue": txtValue.val(),
+            "Operator": txtCountry.val()
+        };
+
+        var tBody = $("#tblCustomers > TBODY")[0];
+        var row = tBody.insertRow(-1);
+        var cell = $(row.insertCell(-1));
+        cell.html(txtName.val());
+        cell = $(row.insertCell(-1));
+        cell.html(txtValue.val());
+        cell = $(row.insertCell(-1));
+        cell.html(txtCountry.val());
+        cell = $(row.insertCell(-1));
+        var btnRemove = $("<input />");
+        btnRemove.attr("type", "button");
+        btnRemove.attr("onclick", "Remove(this);");
+        btnRemove.val("Remove");
+        cell.append(btnRemove);
+        txtName.val("");
+        txtValue.val("");
+        txtCountry.val("");
+
+        claimsJsonArray.push(item);
+    }
+
+    function Remove(button) {
+        var row = $(button).closest("TR");
+        var name = $("TD", row).eq(0).html();
+        var value = $("TD", row).eq(1).html();
+        var op = $("TD", row).eq(2).html();
+
+        if (confirm("Do you want to delete: " + name)) {
+            var table = $("#tblCustomers")[0];
+            table.deleteRow(row[0].rowIndex);
+
+            var item = {
+                "ParameterName": name,
+                "ParameterValue": value,
+                "Operator": op
+            };
+            var existingIndex = claimsJsonArray.findIndex(x => x.ParameterName === name && x.ParameterValue === value && x.Operator === op);
+            claimsJsonArray.splice(existingIndex, 1);
+        }
+    };
+</script>
+
+<div class="card" style="padding-top: 10%">
+    <div class=" card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="txtUrl">Url</label>
+                <input type="text" class="form-control" id="txtUrl" placeholder="Enter url">
+            </div>
+            <div class="col-md-4">
+                <label for="txtPolicyOp">Policy Operator</label>
+                <input type="text" class="form-control" id="txtPolicyOp" placeholder="Enter Policy Operator">
+            </div>
+            <div class="col-md-4">
+                <label for="txtMethod">Method</label>
+                <input type="text" class="form-control" id="txtMethod" placeholder="Enter Url Method">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="txtPolicyInfo">Policy Info</label>
+                <input type="text" class="form-control" id="txtPolicyInfo" placeholder="Enter Policy Information">
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="btn-primary" onclick="AddPolicy()" style="margin-top: 3px;">Sumbit</button>
+    </div>
+</div>
+
+
+<th>PolicyName</th>
+<input type="text" name="txtPolicyName" id="txtPolicyName" value="" />
+<table id="tblCustomers">
+    <thead>
+        <tr>
+            <th>ParameterName</th>
+            <th>ParameterValue</th>
+            <th>Operator</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var claim in Model.Policies.Parameters)
+            {
+                <td>@claim.ParameterName</td>
+                <td>@claim.ParameterValue</td>
+                <td>@claim.Operator</td>
+                <td><input type="button" value="Remove" onclick="Remove(this)" /></td>
+            }
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><input type="text" id="txtName" /></td>
+            <td><input type="text" id="txtValue" /></td>
+            <td>
+                <select id="ddlCountries" asp-items="@ViewBag.Operators"></select>
+            </td>
+            <td><input type="button" id="btnAdd" onclick="AddClaims()" value="Add" /></td>
+        </tr>
+    </tfoot>
+</table>

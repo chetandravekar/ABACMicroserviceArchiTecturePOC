@@ -1,0 +1,55 @@
+[
+  {
+    "SrNo": 1,
+    "Url": "/api/Product",
+    "Method": "GET",
+    "PolicyInfo": "Policy validate user data for City & Title or country & city",
+    "PolicyOperator": "OR",
+    "Policies": [
+      {
+        "Name": "CityJobTitlePolicy",
+        "Parameters": [
+          "Pune",
+          "Sr Lead"
+        ]
+      },
+      {
+        "Name": "CountryCityPolicy",
+        "Parameters": [
+          "India",
+          "Delhi"
+        ]
+      }
+    ]
+  },
+  {
+    "SrNo": 2,
+    "Url": "/api/Product/{id}",
+    "Method": "POST",
+    "PolicyInfo": "Policy validate user data for Title & Age AND City & Title And country & city",
+    "PolicyOperator": "AND",
+    "Policies": [
+      {
+        "Name": "DesignationAgePolicy1",
+        "Parameters": [
+          "Sr Lead",
+          "27"
+        ]
+      },
+      {
+        "Name": "CityJobTitlePolicy",
+        "Parameters": [
+          "Nagpur",
+          "Sr Lead"
+        ]
+      },
+      {
+        "Name": "CountryCityPolicy",
+        "Parameters": [
+          "India",
+          "Nagpur"
+        ]
+      }
+    ]
+  }
+]
